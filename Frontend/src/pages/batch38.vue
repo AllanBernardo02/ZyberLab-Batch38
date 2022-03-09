@@ -3,6 +3,7 @@
     <q-toolbar class="bg-purple text-white">
       <q-btn flat round dense icon="assignment_ind" />
       <q-toolbar-title>
+          {{state.task}}
         Batch 38 TODO App
       </q-toolbar-title>
       <q-btn flat round dense icon="apps" class="q-mr-xs" />
@@ -10,24 +11,16 @@
     </q-toolbar>
 
     <div class="row  q-gutter-sm  q-pa-sm">
-        <q-input class="col" filled v-model="text" label="What needs to be done" />
-        <q-btn icon="add" label="add"></q-btn>
+        <q-input @keyup.enter="add" v-model="state.task" class="col" filled  label="What needs to be done" />
+        <q-btn @click="add" icon="add" label="add"></q-btn>
    </div>
-    <q-list class="q-ma-sm" bordered separator>
+    <q-list v-for="todo in todos" :key="todo.id" class="q-ma-sm" bordered separator>
         <!-- first list -->
         <q-item clickable v-ripple>
             <q-item-section avatar>
                 <q-icon name="signal_wifi_off" />
             </q-item-section>
-            <q-item-section>Active</q-item-section>
-            <q-item-section side>Side</q-item-section>
-        </q-item>
-        <!-- Second list -->
-        <q-item clickable v-ripple>
-            <q-item-section avatar>
-                <q-icon name="signal_wifi_off" />
-            </q-item-section>
-            <q-item-section>Active</q-item-section>
+            <q-item-section>{{todo.desc}}</q-item-section> <!-- todo.desc called data binding-->
             <q-item-section side>Side</q-item-section>
         </q-item>
     </q-list>
@@ -58,6 +51,52 @@
 
 
 </template>
+
+    <!-- composition API -->
+<script setup>
+
+import { reactive, ref } from 'vue'
+
+//Using Reactive
+const state = reactive({
+            task: ''
+    //         todos: [
+    //         {
+    //             id: Date.now(),
+    //             desc: 'add function',
+    //             isDone: false
+    //         }
+    // ]
+    })
+
+//Using ref
+const todos = ref([
+            {
+                id: Date.now(),
+                desc: 'add function',
+                isDone: false
+            }
+    ])
+
+
+    function add() 
+    {
+        //If we use reactive, use state like this.. state.todos.push({object:object})
+        //if we use ref, use .value like this.. todos.value.push({object:object})
+        todos.value.unshift(
+            {
+                id: Date.now(),
+                desc: state.task,
+                isDone: false
+            }
+        );
+        state.task = ""; //it is for clearing text or data in input
+    }
+        
+</script>
+
+
+
 
 <!-- <script>
     export default {
