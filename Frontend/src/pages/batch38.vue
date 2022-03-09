@@ -3,8 +3,10 @@
     <q-toolbar class="bg-purple text-white">
       <q-btn flat round dense icon="assignment_ind" />
       <q-toolbar-title>
-          {{state.task}}
-        Batch 38 TODO App
+          {{state.task}} 
+        Batch 38 TODO App 
+        <greet v-if="!state.fullName" @getFullName="(val) => state.fullName = val" fname="Allan" lname="Bernardo"/>
+        <span v-else>{{state.fullName}}</span>
       </q-toolbar-title>
       <q-btn flat round dense icon="apps" class="q-mr-xs" />
       <q-btn flat round dense icon="more_vert" />
@@ -20,7 +22,7 @@
             <q-item-section avatar>
                 <q-icon name="signal_wifi_off" />
             </q-item-section>
-            <q-item-section>{{todo.desc}}</q-item-section> <!-- todo.desc called data binding-->
+            <q-item-section>{{todo.title}}</q-item-section> <!-- todo.desc called data binding-->
             <q-item-section side>Side</q-item-section>
         </q-item>
     </q-list>
@@ -55,11 +57,15 @@
     <!-- composition API -->
 <script setup>
 
-import { reactive, ref } from 'vue'
+import { reactive, ref, onMounted } from 'vue'
+import axios from 'axios'
+
+import greet from 'components/greet.vue'
 
 //Using Reactive
 const state = reactive({
-            task: ''
+            task: '',
+            fullName: ''
     //         todos: [
     //         {
     //             id: Date.now(),
@@ -73,11 +79,16 @@ const state = reactive({
 const todos = ref([
             {
                 id: Date.now(),
-                desc: 'add function',
-                isDone: false
+                title: 'add function',
+                completed: false
             }
     ])
 
+// onMounted is to initialize the data from axios and Axios used to get the into server
+onMounted(async () => {
+    const { data } = await axios.get("https://jsonplaceholder.typicode.com/todos");
+    todos.value = data;
+})
 
     function add() 
     {
@@ -86,8 +97,8 @@ const todos = ref([
         todos.value.unshift(
             {
                 id: Date.now(),
-                desc: state.task,
-                isDone: false
+                title: state.task,
+                completed: false
             }
         );
         state.task = ""; //it is for clearing text or data in input
