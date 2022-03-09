@@ -97,7 +97,7 @@ const todos = ref([
 
 
 
-
+   
 <!-- <script>
     export default {
         name: "todo",
@@ -120,4 +120,28 @@ const todos = ref([
         }
     };
     
+</script> -->
+
+<!-- <script>
+    export default {
+        data: () => ( //nagrereturn ng value
+            {
+                task: '',
+                todos:[]
+            }
+        ),
+
+        methods: {
+            add() {
+                this.todos.unshift({
+                    id: Date.now(),
+                    decs: this.task,
+                    isDone: false
+
+                })
+            },
+            remove() {},
+            update() {},
+        }
+    }
 </script> -->
