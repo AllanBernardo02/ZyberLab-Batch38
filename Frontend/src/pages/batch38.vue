@@ -13,14 +13,24 @@
         <q-input class="col" filled v-model="text" label="What needs to be done" />
         <q-btn icon="add" label="add"></q-btn>
    </div>
-        <ul>
-            <li>bernardoss</li>
-            <li>bernardos</li>
-            <li>bernardo</li>
-            <li>bernardo</li>
-            <li>bernardo</li>
-        </ul>
-    
+    <q-list class="q-ma-sm" bordered separator>
+        <!-- first list -->
+        <q-item clickable v-ripple>
+            <q-item-section avatar>
+                <q-icon name="signal_wifi_off" />
+            </q-item-section>
+            <q-item-section>Active</q-item-section>
+            <q-item-section side>Side</q-item-section>
+        </q-item>
+        <!-- Second list -->
+        <q-item clickable v-ripple>
+            <q-item-section avatar>
+                <q-icon name="signal_wifi_off" />
+            </q-item-section>
+            <q-item-section>Active</q-item-section>
+            <q-item-section side>Side</q-item-section>
+        </q-item>
+    </q-list>
     
    
     <!-- <div class="todos">
