@@ -24,7 +24,7 @@
             </q-item-section>
             <q-item-section :class="{ 'text-strike text-grey':  todo.completed}">{{todo.title}}</q-item-section> <!-- todo.desc called data binding-->
             <q-item-section side>
-                <q-btn v-show="selected === todo.id" round icon="delete"/>
+                <q-btn @click="removeTask(todo)" v-show="selected === todo.id" round icon="delete"/>
             </q-item-section>
         </q-item>
     </q-list>
@@ -167,6 +167,12 @@ onMounted(async () => {
             ]
         }
         $pdfMake.createPdf(dd).open()
+    }
+
+    //for removing task in the application
+    const removeTask = (task) => {
+       const i = todos.value.findIndex(t => t.id === task.id)
+        todos.value.splice(i, 1)
     }
         
 </script>
