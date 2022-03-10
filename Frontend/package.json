@@ -13,6 +13,7 @@
     "axios": "^0.26.0",
     "chart.js": "^3.7.1",
     "core-js": "^3.6.5",
+    "pdfmake": "^0.2.4",
     "quasar": "^2.0.0",
     "vue": "^3.0.0",
     "vue-chartkick": "^1.1.0",

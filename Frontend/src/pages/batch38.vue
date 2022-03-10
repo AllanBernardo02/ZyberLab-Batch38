@@ -1,5 +1,5 @@
 <template>
-
+    <div>
     <q-toolbar class="bg-purple text-white">
       <q-btn flat round dense icon="assignment_ind" />
       <q-toolbar-title>
@@ -30,6 +30,9 @@
     </q-list>
     <pie-chart :data="[['Active', countActive], ['Completed', countCompleted]]"></pie-chart>
     
+    <q-btn icon="print" @click="print"/>
+    <q-btn icon="download" @click="download"/>
+    <q-btn icon="email" @click="open"/>
    
     <!-- <div class="todos">
         <q-toolbar class="bg-purple text-white">
@@ -54,7 +57,7 @@
 
 
 
-
+</div>
 </template>
 
     <!-- composition API -->
@@ -67,7 +70,7 @@ import greet from 'components/greet.vue'
 
 const app = getCurrentInstance()
 
-const { $axios } =app.appContext.config.globalProperties // Option 2 for using axios globally:
+const { $axios, $pdfMake } =app.appContext.config.globalProperties // Option 2 for using axios globally:
 
 //Using Reactive
 const state = reactive({
@@ -87,6 +90,7 @@ const countActive = computed(() => todos.value.length - countCompleted.value) //
 
 const selected = ref(null) // for hover delete icon
 
+const list = computed(() => todos.value.length)
 //Using ref
 const todos = ref([
             {
@@ -114,6 +118,55 @@ onMounted(async () => {
             }
         );
         state.task = ""; //it is for clearing text or data in input
+    }
+
+    function print() {
+        const dd = {
+            content: [
+                {
+                    table: {
+                        body: [
+                            ['completed', 'active', 'All_list'],
+                            [countCompleted.value, countActive.value, list.value]
+                        ]
+                    }
+                }
+            ]
+        }
+        $pdfMake.createPdf(dd).print()
+    
+    }
+
+    function download() {
+        const dd = {
+            content: [
+                {
+                    table: {
+                        body: [
+                            ['completed', 'active'],
+                            [countCompleted.value, countActive.value]
+                        ]
+                    }
+                }
+            ]
+        }
+        $pdfMake.createPdf(dd).download()
+    }
+
+    function open() {
+        const dd = {
+            content: [
+                {
+                    table: {
+                        body: [
+                            ['completed', 'active'],
+                            [countCompleted.value, countActive.value]
+                        ]
+                    }
+                }
+            ]
+        }
+        $pdfMake.createPdf(dd).open()
     }
         
 </script>
